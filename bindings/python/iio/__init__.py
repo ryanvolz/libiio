@@ -367,7 +367,10 @@ else:
 if _lib_loc is None:
     raise OSError(2, "Could not find libiio C library")
 _lib = _cdll(_lib_loc, use_errno=True, use_last_error=True)
-_libc = _cdll(find_library("c"))
+_libc_path = find_library("c")
+if _libc_path is None and "Windows" in _system():
+    _libc_path = find_library("ucrtbase")
+_libc = _cdll(_libc_path)
 
 _get_backends_count = _lib.iio_get_builtin_backends_count
 _get_backends_count.restype = c_uint
