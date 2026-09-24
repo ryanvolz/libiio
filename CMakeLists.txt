@@ -165,7 +165,9 @@ if (CMAKE_C_COMPILER_ID MATCHES "GNU|Clang|MSVC")
                        NO_SONAME ON
                        VERSION 0.99
                        SOVERSION 0)
-        if (NOT WIN32)
+        if (APPLE)
+            set_target_properties(iio-compat PROPERTIES SUFFIX .0.dylib)
+        elseif (NOT WIN32)
             set_target_properties(iio-compat PROPERTIES SUFFIX .so.0)
         endif ()
         if (WITH_GCOV)
